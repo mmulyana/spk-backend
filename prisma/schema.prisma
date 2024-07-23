@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Akun {
+  id       Int    @id @default(autoincrement())
+  email    String @db.VarChar(100)
+  password String
+  role     Role
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+}
+
+model Pegawai {
+  id                  Int            @id @default(autoincrement())
+  nama                String         @db.VarChar(100)
+  NIP                 String?        @db.VarChar(50)
+  tempat_lahir        String?        @db.VarChar(50)
+  tanggal_lahir       DateTime?      @db.Date()
+  jenis_kelamin       JENIS_KELAMIN?
+  agama               String?
+  alamat              String?
+  pendidikan_terakhir String?
+  status_pegawai      String?
+  departemen          String?
+  jabatan             String?
+  status              Status         @default(BELUM)
+  Hasil               Hasil[]
+  Perhitungan         Perhitungan[]
+}
+
+enum Status {
+  SUDAH
+  BELUM
+}
+
+enum JENIS_KELAMIN {
+  PRIA
+  PEREMPUAN
+}
+
+model Kriteria {
+  id          Int           @id @default(autoincrement())
+  name        String        @db.VarChar(100)
+  bobot       Float
+  minimun     Float
+  keterangan  String
+  Perhitungan Perhitungan[]
+}
+
+model Perhitungan {
+  id         Int      @id @default(autoincrement())
+  idPegawai  Int
+  idKriteria Int
+  kriteria   Kriteria @relation(fields: [idKriteria], references: [id])
+  pegawai    Pegawai  @relation(fields: [idPegawai], references: [id])
+}
+
+model Hasil {
+  id        Int     @id @default(autoincrement())
+  nilai     Float
+  idPegawai Int
+  pegawai   Pegawai @relation(fields: [idPegawai], references: [id])
+}
