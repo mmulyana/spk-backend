@@ -54,7 +54,7 @@ const updatePegawaiHandler = async (req, res, next) => {
     } = req.body
     const { id } = req.params
 
-    await db.pegawai.create({
+    await db.pegawai.update({
       data: {
         nama,
         NIP,
@@ -127,7 +127,7 @@ const getAllPegawaiHandler = async (req, res, next) => {
 }
 
 module.exports = {
-  createPegawai,
+  createPegawaiHandler,
   updatePegawaiHandler,
   deletePegawaiHandler,
   getPegawaiHandler,
