@@ -1,6 +1,8 @@
 const express = require('express')
 const cors = require('cors')
 const auth = require('./routes/auth')
+const kriteria = require('./routes/kriteria')
+const pegawai = require('./routes/pegawai')
 
 const app = express()
 
@@ -11,6 +13,8 @@ app.use(cors())
 let api = express.Router()
 
 api.use(auth)
+api.use(pegawai)
+api.use(kriteria)
 
 app.use('/api', api)
 
