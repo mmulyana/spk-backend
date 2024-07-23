@@ -43,7 +43,7 @@ const loginHandler = async (req, res, next) => {
 
 const registerHandler = async (req, res, next) => {
   try {
-    const { email, password, role } = req.body
+    const { nama, email, password, role } = req.body
     const user = await db.akun.findUnique({
       where: {
         email,
@@ -53,6 +53,7 @@ const registerHandler = async (req, res, next) => {
 
     await db.akun.create({
       data: {
+        nama,
         email,
         password,
         role: role || 'MANAGER',
