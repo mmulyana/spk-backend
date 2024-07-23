@@ -1,15 +1,15 @@
 const { Router } = require('express')
 const {
-  createPegawai,
   getAllPegawaiHandler,
   getPegawaiHandler,
   updatePegawaiHandler,
   deletePegawaiHandler,
+  createPegawaiHandler,
 } = require('../controller/pegawai.controller')
 
 const router = Router()
 
-router.post('/pegawai', createPegawai)
+router.post('/pegawai', createPegawaiHandler)
 router.get('/pegawai', getAllPegawaiHandler)
 router.get('/pegawai/:id', getPegawaiHandler)
 router.patch('/pegawai/:id', updatePegawaiHandler)
