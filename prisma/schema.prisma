@@ -15,6 +15,7 @@ datasource db {
 
 model Akun {
   id       Int    @id @default(autoincrement())
+  nama     String @db.VarChar(100)
   email    String @db.VarChar(100)
   password String
   role     Role
