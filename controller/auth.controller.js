@@ -33,7 +33,7 @@ const loginHandler = async (req, res, next) => {
     }
 
     return res.status(200).json({
-      payload,
+      data: payload,
       message: 'Login sukses',
     })
   } catch (error) {
