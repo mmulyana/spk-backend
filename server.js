@@ -7,9 +7,9 @@ const akun = require('./routes/akun')
 
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
 
 let api = express.Router()
 
@@ -21,5 +21,5 @@ api.use(kriteria)
 app.use('/api', api)
 
 app.listen(5000, () => {
-  console.log('server is running in http://localhost:8000')
+  console.log('server is running in http://localhost:5000')
 })
