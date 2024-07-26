@@ -9,7 +9,7 @@ const createPegawaiHandler = async (req, res, next) => {
       tanggal_lahir,
       jenis_kelamin,
       agama,
-      alamt,
+      alamat,
       pendidikan_terakhir,
       status_pegawai,
       departemen,
@@ -21,10 +21,10 @@ const createPegawaiHandler = async (req, res, next) => {
         nama,
         NIP,
         tempat_lahir,
-        tanggal_lahir,
+        tanggal_lahir: new Date(tanggal_lahir).toISOString(),
         jenis_kelamin,
         agama,
-        alamt,
+        alamat,
         pendidikan_terakhir,
         status_pegawai,
         departemen,
@@ -59,7 +59,7 @@ const updatePegawaiHandler = async (req, res, next) => {
         nama,
         NIP,
         tempat_lahir,
-        tanggal_lahir,
+        tanggal_lahir: new Date(tanggal_lahir).toISOString(),
         jenis_kelamin,
         agama,
         alamt,
@@ -111,19 +111,23 @@ const getPegawaiHandler = async (req, res, next) => {
   }
 }
 const getAllPegawaiHandler = async (req, res, next) => {
-  const pegawai = await db.pegawai.findMany({
-    include: {
-      Hasil: {
-        select: {
-          nilai,
+  try {
+    const pegawai = await db.pegawai.findMany({
+      include: {
+        Hasil: {
+          select: {
+            nilai: true,
+          },
         },
       },
-    },
-  })
-  return res.status(200).json({
-    message: 'success',
-    data: pegawai,
-  })
+    })
+    return res.status(200).json({
+      message: 'success',
+      data: pegawai,
+    })
+  } catch (error) {
+    next(error)
+  }
 }
 
 module.exports = {
