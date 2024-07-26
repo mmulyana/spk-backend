@@ -27,19 +27,19 @@ enum Role {
 }
 
 model Pegawai {
-  id                  Int            @id @default(autoincrement())
-  nama                String         @db.VarChar(100)
-  NIP                 String?        @db.VarChar(50)
-  tempat_lahir        String?        @db.VarChar(50)
-  tanggal_lahir       DateTime?      @db.Date()
-  jenis_kelamin       JENIS_KELAMIN?
+  id                  Int           @id @default(autoincrement())
+  nama                String        @db.VarChar(100)
+  NIP                 String?       @db.VarChar(50)
+  tempat_lahir        String?       @db.VarChar(50)
+  tanggal_lahir       DateTime?     @db.Date()
+  jenis_kelamin       String?
   agama               String?
   alamat              String?
   pendidikan_terakhir String?
   status_pegawai      String?
   departemen          String?
   jabatan             String?
-  status              Status         @default(BELUM)
+  status              Status        @default(BELUM)
   Hasil               Hasil[]
   Perhitungan         Perhitungan[]
 }
@@ -47,11 +47,6 @@ model Pegawai {
 enum Status {
   SUDAH
   BELUM
-}
-
-enum JENIS_KELAMIN {
-  PRIA
-  PEREMPUAN
 }
 
 model Kriteria {
