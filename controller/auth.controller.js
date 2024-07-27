@@ -14,12 +14,12 @@ const loginHandler = async (req, res, next) => {
     if (!user) throw new Error('akun tidak ada')
 
     const isPasswordMatch = await bcrypt.compare(password, user.password)
-    if (isPasswordMatch) {
+    if (!isPasswordMatch) {
       throw new Error('Invalid name or email and password')
     }
 
     const token = jwt.sign(
-      { id: user?.id, email: user?.email },
+      { nama: user.nama, email: user.email, role: user.role },
       process.env.SECRET || '',
       {
         expiresIn: '2d',
@@ -27,8 +27,6 @@ const loginHandler = async (req, res, next) => {
     )
 
     const payload = {
-      email: user.email,
-      role: user.role,
       token,
     }
 
@@ -43,7 +41,7 @@ const loginHandler = async (req, res, next) => {
 
 const registerHandler = async (req, res, next) => {
   try {
-    const { nama, email, password, role } = req.body
+    const { nama, email, password } = req.body
     const user = await db.akun.findUnique({
       where: {
         email,
@@ -51,12 +49,15 @@ const registerHandler = async (req, res, next) => {
     })
     if (user) throw new Error('akun sudah ada')
 
+    const salt = await bcrypt.genSalt()
+    const hashPassword = await bcrypt.hash(password, salt)
+
     await db.akun.create({
       data: {
         nama,
         email,
-        password,
-        role: role || 'MANAGER',
+        password: hashPassword,
+        role: 'MANAGER',
       },
     })
 
