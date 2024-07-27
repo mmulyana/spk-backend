@@ -1,9 +1,12 @@
 const express = require('express')
 const cors = require('cors')
+
 const auth = require('./routes/auth')
-const kriteria = require('./routes/kriteria')
-const pegawai = require('./routes/pegawai')
 const akun = require('./routes/akun')
+const pegawai = require('./routes/pegawai')
+const kriteria = require('./routes/kriteria')
+const dashboard = require('./routes/dashboard')
+
 const { ErrorHandler } = require('./helper/error-handler')
 
 const app = express()
@@ -18,6 +21,7 @@ api.use(auth)
 api.use(akun)
 api.use(pegawai)
 api.use(kriteria)
+api.use(dashboard)
 
 app.get('/', (req, res) => {
   res.json({
