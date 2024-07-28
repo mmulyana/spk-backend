@@ -62,6 +62,7 @@ model Perhitungan {
   id         Int      @id @default(autoincrement())
   idPegawai  Int
   idKriteria Int
+  nilai      Float
   kriteria   Kriteria @relation(fields: [idKriteria], references: [id])
   pegawai    Pegawai  @relation(fields: [idPegawai], references: [id])
 }
