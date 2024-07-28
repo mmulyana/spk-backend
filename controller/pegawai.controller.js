@@ -16,7 +16,7 @@ const createPegawaiHandler = async (req, res, next) => {
       jabatan,
     } = req.body
 
-    await db.pegawai.create({
+    const data = await db.pegawai.create({
       data: {
         nama,
         NIP,
@@ -32,7 +32,9 @@ const createPegawaiHandler = async (req, res, next) => {
       },
     })
 
-    return res.status(201).json({ message: 'Pegawai berhasil dibuat' })
+    return res
+      .status(201)
+      .json({ message: 'Pegawai berhasil dibuat', data: { id: data.id } })
   } catch (error) {
     next(error)
   }
@@ -115,6 +117,11 @@ const getAllPegawaiHandler = async (req, res, next) => {
     const pegawai = await db.pegawai.findMany({
       include: {
         Hasil: {
+          select: {
+            nilai: true,
+          },
+        },
+        Perhitungan: {
           select: {
             nilai: true,
           },
