@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 
+const spk = require('./routes/spk')
 const auth = require('./routes/auth')
 const akun = require('./routes/akun')
 const pegawai = require('./routes/pegawai')
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }))
 
 let api = express.Router()
 
+api.use(spk)
 api.use(auth)
 api.use(akun)
 api.use(pegawai)
