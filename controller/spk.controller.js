@@ -1,3 +1,4 @@
+const { calculateSPK } = require('../helper/spk-helper')
 const db = require('../lib/db')
 
 const spkHandler = async (req, res, next) => {
@@ -15,6 +16,8 @@ const spkHandler = async (req, res, next) => {
         idPegawai: id,
       })),
     })
+
+    await calculateSPK(id)
 
     await db.pegawai.update({
       data: {
