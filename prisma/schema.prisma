@@ -55,7 +55,13 @@ model Kriteria {
   bobot       Float
   minimum     Float
   keterangan  String
+  tipe        TIPE
   Perhitungan Perhitungan[]
+}
+
+enum TIPE {
+  Benefit
+  Cost
 }
 
 model Perhitungan {
