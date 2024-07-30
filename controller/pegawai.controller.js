@@ -21,7 +21,9 @@ const createPegawaiHandler = async (req, res, next) => {
         nama,
         NIP,
         tempat_lahir,
-        tanggal_lahir: new Date(tanggal_lahir).toISOString(),
+        tanggal_lahir: tanggal_lahir
+          ? new Date(tanggal_lahir).toISOString()
+          : new Date().toISOString(),
         jenis_kelamin,
         agama,
         alamat,
