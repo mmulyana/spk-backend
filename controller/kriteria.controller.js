@@ -3,15 +3,8 @@ const db = require('../lib/db')
 
 const createKriteriaHandler = async (req, res, next) => {
   try {
-    const { nama, bobot, minimum, keterangan } = req.body
-
     await db.kriteria.create({
-      data: {
-        nama,
-        bobot,
-        minimum,
-        keterangan,
-      },
+      data: req.body,
     })
 
     return res.status(201).json({ message: 'Kriteria berhasil dibuat' })
@@ -22,15 +15,9 @@ const createKriteriaHandler = async (req, res, next) => {
 }
 const updateKriteriaHandler = async (req, res, next) => {
   try {
-    const { nama, bobot, minimum, keterangan } = req.body
     const { id } = req.params
     await db.kriteria.update({
-      data: {
-        nama,
-        bobot,
-        minimum,
-        keterangan,
-      },
+      data: req.body,
       where: {
         id: Number(id),
       },
