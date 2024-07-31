@@ -1,3 +1,4 @@
+const { reCalculateSPK } = require('../helper/spk-helper')
 const db = require('../lib/db')
 
 const createPegawaiHandler = async (req, res, next) => {
@@ -85,11 +86,51 @@ const updatePegawaiHandler = async (req, res, next) => {
 const deletePegawaiHandler = async (req, res, next) => {
   try {
     const { id } = req.params
+
+    const pegawai = await db.pegawai.findUnique({
+      where: {
+        id: Number(id),
+      },
+      include: {
+        Hasil: {
+          select: {
+            id: true,
+            nilai: true,
+          },
+        },
+        Perhitungan: {
+          select: {
+            id: true,
+            nilai: true,
+          },
+        },
+      },
+    })
+    const hasil = pegawai.Hasil
+    const perhitungan = pegawai.Perhitungan.map((p) => p.id)
+    if (hasil.length > 0) {
+      await db.hasil.delete({
+        where: {
+          id: hasil[0].id,
+        },
+      })
+    }
+    if (perhitungan.length > 0) {
+      await db.perhitungan.deleteMany({
+        where: {
+          id: {
+            in: perhitungan,
+          },
+        },
+      })
+    }
+    reCalculateSPK(Number(id))
     await db.pegawai.delete({
       where: {
         id: Number(id),
       },
     })
+
     return res.status(201).json({
       message: 'pegawai berhasil dihapus',
     })
@@ -125,6 +166,7 @@ const getAllPegawaiHandler = async (req, res, next) => {
         },
         Perhitungan: {
           select: {
+            id: true,
             nilai: true,
           },
         },
