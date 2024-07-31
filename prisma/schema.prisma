@@ -76,6 +76,6 @@ model Perhitungan {
 model Hasil {
   id        Int     @id @default(autoincrement())
   nilai     Float
-  idPegawai Int
+  idPegawai Int     @unique
   pegawai   Pegawai @relation(fields: [idPegawai], references: [id])
 }
