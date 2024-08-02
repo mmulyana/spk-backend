@@ -2,26 +2,44 @@ const db = require('../lib/db')
 
 const dashboardHandler = async (req, res, next) => {
   try {
-    const akun = await db.akun.findMany()
     const kriteria = await db.kriteria.findMany()
-    const pegawai = await db.pegawai.findMany({
-      include: {
-        Hasil: {
+    const dataHasil = await db.hasil.findMany({
+      select: {
+        nilai: true,
+        pegawai: {
           select: {
-            nilai: true,
+            id: true,
+            nama: true,
+            NIP: true,
+            jabatan: true,
           },
         },
       },
+      take: 10,
+      orderBy: {
+        nilai: 'desc',
+      },
     })
+    const pegawai = dataHasil.map((item, index) => {
+      return {
+        ...item,
+        peringkat: index + 1,
+      }
+    })
+
+    const akun = await db.akun.count()
+    const totalPegawai = await db.pegawai.count()
+    const nilai = await db.hasil.count()
+    const totalKriteria = await db.kriteria.count()
 
     return res.status(200).json({
       message: 'success',
       data: {
         count: {
-          pegawai: pegawai.length,
-          sudah: 0,
-          kriteria: kriteria.length,
-          akun: akun.length,
+          akun,
+          nilai,
+          kriteria: totalKriteria,
+          pegawai: totalPegawai,
         },
         pegawai,
         kriteria,
