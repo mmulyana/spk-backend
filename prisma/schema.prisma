@@ -47,7 +47,6 @@ model Kriteria {
   id          Int           @id @default(autoincrement())
   nama        String        @db.VarChar(100)
   bobot       Float
-  minimum     Float
   keterangan  String
   tipe        TIPE
   perhitungan Perhitungan[]
