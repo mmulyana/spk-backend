@@ -92,13 +92,13 @@ const deletePegawaiHandler = async (req, res, next) => {
         id: Number(id),
       },
       include: {
-        Hasil: {
+        hasil: {
           select: {
             id: true,
             nilai: true,
           },
         },
-        Perhitungan: {
+        perhitungan: {
           select: {
             id: true,
             nilai: true,
@@ -106,7 +106,7 @@ const deletePegawaiHandler = async (req, res, next) => {
         },
       },
     })
-    const hasil = pegawai.Hasil
+    const hasil = pegawai.hasil
     const perhitungan = pegawai.Perhitungan.map((p) => p.id)
     if (hasil.length > 0) {
       await db.hasil.delete({
@@ -157,24 +157,40 @@ const getPegawaiHandler = async (req, res, next) => {
 }
 const getAllPegawaiHandler = async (req, res, next) => {
   try {
+    const page = parseInt(req.query.page) || 1
+    const limit = 10
+    const skip = (page - 1) * limit
+    const take = limit
+
     const pegawai = await db.pegawai.findMany({
       include: {
-        Hasil: {
+        hasil: {
           select: {
             nilai: true,
           },
         },
-        Perhitungan: {
+        perhitungan: {
           select: {
             id: true,
             nilai: true,
           },
         },
       },
+      skip,
+      take,
     })
+
+    const totalCount = await db.pegawai.count()
+
     return res.status(200).json({
       message: 'success',
       data: pegawai,
+      pagination: {
+        currentPage: page,
+        totalPages: Math.ceil(totalCount / limit),
+        totalCount: totalCount,
+        perPage: limit,
+      },
     })
   } catch (error) {
     next(error)
