@@ -29,7 +29,7 @@ const calculateSPK = async (idPegawai) => {
     })
   )
 
-  const pegawai = await db.perhitungan.findMany({
+  const perhitungan = await db.perhitungan.findMany({
     where: { idPegawai: idPegawai },
     select: {
       nilai: true,
@@ -43,11 +43,11 @@ const calculateSPK = async (idPegawai) => {
   })
 
   const normalized = kriteriaArr.map((k) => {
-    const idx = pegawai.findIndex((p) => p.kriteria.id === k.idKriteria)
+    const idx = perhitungan.findIndex((p) => p.kriteria.id === k.idKriteria)
     if (k.tipe == 'Benefit') {
-      return (pegawai[idx].nilai / k.nilai) * k.bobot
+      return (perhitungan[idx].nilai / k.nilai) * k.bobot
     } else {
-      return (k.nilai / pegawai[idx].nilai) * k.bobot
+      return (k.nilai / perhitungan[idx].nilai) * k.bobot
     }
   })
   console.log('normalized', normalized)
