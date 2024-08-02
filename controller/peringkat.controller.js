@@ -53,9 +53,17 @@ const getPeringkatHandler = async (req, res, next) => {
       }
     })
 
+    const totalCount = await db.pegawai.count()
+
     return res.status(200).json({
       message: 'success',
       data: payload,
+      pagination: {
+        currentPage: page,
+        totalPages: Math.ceil(totalCount / limit),
+        totalCount: totalCount,
+        perPage: limit,
+      },
     })
   } catch (error) {
     next(error)
