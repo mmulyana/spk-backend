@@ -107,7 +107,7 @@ const deletePegawaiHandler = async (req, res, next) => {
       },
     })
     const hasil = pegawai.hasil
-    const perhitungan = pegawai.Perhitungan.map((p) => p.id)
+    const perhitungan = pegawai.perhitungan.map((p) => p.id)
     if (hasil.length > 0) {
       await db.hasil.delete({
         where: {
