@@ -7,6 +7,7 @@ const akun = require('./routes/akun')
 const pegawai = require('./routes/pegawai')
 const kriteria = require('./routes/kriteria')
 const dashboard = require('./routes/dashboard')
+const peringkat = require('./routes/peringkat')
 
 const { ErrorHandler } = require('./helper/error-handler')
 
@@ -24,6 +25,7 @@ api.use(akun)
 api.use(pegawai)
 api.use(kriteria)
 api.use(dashboard)
+api.use(peringkat)
 
 app.get('/', (req, res) => {
   res.json({
