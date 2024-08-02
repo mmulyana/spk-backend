@@ -48,7 +48,7 @@ const getKriteriaHandler = async (req, res, next) => {
         id: Number(id),
       },
     })
-    return res.status(200).json({ data, message: 'Kriteria berhasil dihapus' })
+    return res.status(200).json({ data, message: 'success' })
   } catch (error) {
     next(error)
   }
@@ -56,7 +56,7 @@ const getKriteriaHandler = async (req, res, next) => {
 const getAllKriteriaHandler = async (_, res, next) => {
   try {
     const data = await db.kriteria.findMany()
-    return res.status(200).json({ data, message: 'Kriteria berhasil dihapus' })
+    return res.status(200).json({ data, message: 'success' })
   } catch (error) {
     next(error)
   }
