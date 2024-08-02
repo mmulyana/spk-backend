@@ -53,7 +53,7 @@ const getPeringkatHandler = async (req, res, next) => {
       }
     })
 
-    const totalCount = await db.pegawai.count()
+    const totalCount = await db.hasil.count()
 
     return res.status(200).json({
       message: 'success',
