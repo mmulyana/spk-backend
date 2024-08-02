@@ -32,10 +32,14 @@ const updateAkunHandler = async (req, res, next) => {
   try {
     const { id } = req.params
     const data = { ...req.body }
-    console.log(data)
 
-    if (data.password == '') delete data.password
-    console.log(data)
+    if (data.password == '') {
+      delete data.password
+    } else {
+      const salt = await bcrypt.genSalt()
+      const hashPassword = await bcrypt.hash(data.password, salt)
+      data.password = hashPassword
+    }
 
     await db.akun.update({
       data,
