@@ -146,6 +146,18 @@ const getPegawaiHandler = async (req, res, next) => {
       where: {
         id: Number(id),
       },
+      include: {
+        perhitungan: {
+          select: {
+            nilai: true,
+            kriteria: {
+              select: {
+                nama: true,
+              },
+            },
+          },
+        },
+      },
     })
     return res.status(200).json({
       message: 'success',
